@@ -11,8 +11,9 @@ public class MenuItemServices  : IMenuItemServices
          new MenuItem { Id = 1, Name = "Burger", Category = "Food", Price = 10.5m },
       new MenuItem { Id = 2, Name = "Piza", Category = "Food", Price = 13.5m },
         new MenuItem { Id = 3, Name = "Chekolte-Cake", Category = "Dessert", Price = 16.5m },
-        new MenuItem { Id = 5, Name = "Grilled-Chicken", Category = "Main Dish", Price = 20.5m },
-         new MenuItem { Id = 6, Name = "Stake", Category = "Main Dish", Price = 26.5m },
+        new MenuItem { Id = 4, Name = "Grilled-Chicken", Category = "Main Dish", Price = 20.5m },
+         new MenuItem { Id = 5, Name = "Stake", Category = "Main Dish", Price = 26.5m },
+          new MenuItem { Id = 6, Name = "French-Fries", Category = "Side Dish", Price = 7.5m },
 
            };
         //public MenuItemServices()
@@ -26,10 +27,12 @@ public class MenuItemServices  : IMenuItemServices
         //     };
         //}
 
-    public List<MenuItem> GetAll()
+    public List<MenuItem> GetAll(string? category)
 
-    { 
-    return _menuitems;
+    {
+        var items = _menuitems
+           .Where(x => category == null || x.Category == category).ToList();
+    return items;
     }
 
     public MenuItem GetById(int id) {

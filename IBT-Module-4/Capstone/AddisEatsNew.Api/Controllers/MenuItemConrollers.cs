@@ -20,11 +20,13 @@ namespace AddisEatsNew.Api.Controllers;
         _menuItemService = menuItemService;
     }
 
-  [HttpGet]
-    public IActionResult GetAll()
+  [HttpGet()]
+    public IActionResult GetAll([FromQuery] string? category)
     {
-        var result = _menuItemService.GetAll();
+        var result = _menuItemService.GetAll(category);
         return Ok(result);
+
+       
     
     }
 
