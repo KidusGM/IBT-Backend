@@ -1,5 +1,6 @@
 
 using AddisEatsNew.Api.Services.MenuItemServices;
+using AddisEatsNew.Api.Services.RestaurantServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IMenuItemServices, MenuItemServices>();
+builder.Services.AddScoped <IRestaurantService, RestaurantService>();
 
+
+
+
+/////////////
+
+
+//var thePhoneNumber = builder.Configuration.GetValue<string>("data:Conatct:Phone");
+//Console.WriteLine(thePhoneNumber);
+
+
+//////////////
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
