@@ -1,6 +1,7 @@
 ﻿
-using AddisEatsNew.Api.Models;
 using AddisEatsNew.Api.Data;
+using AddisEatsNew.Api.DTOs;
+using AddisEatsNew.Api.Models;
 
 namespace AddisEatsNew.Api.Services.RestaurantServices
 {
@@ -18,12 +19,14 @@ namespace AddisEatsNew.Api.Services.RestaurantServices
             return allrestaurant.Where(r => r.Name == name).FirstOrDefault();
         }
 
-        public List<Restaurant> GetAll(string? address, int page, int pageSize)
+        public List<Restaurant> GetAll(RestaurantQuery query)
         {
             var restaurant = allrestaurant
-                .Where(r => address == null || r.Address == address)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
+                .Where(r => query.Address == null || r.Address == query.Address)
+                 .Where(r => query.Name == null || r.Name == query.Name)
+                  .Where(r => query.IsActive == null || r.IsActive == query.IsActive)
+                .Skip((query.Page - 1) * query.PageSize)
+                .Take(query.PageSize)
                 .ToList();
 
             return restaurant;

@@ -55,9 +55,9 @@ namespace AddisEatsNew.Api.Controllers
 
 
         [HttpGet()]
-        public IActionResult GetAllestaurants([FromQuery] string? address, [FromQuery] int page=1, [FromQuery] int pageSize=3)
+        public IActionResult GetAllestaurants([FromQuery] RestaurantQuery query)
         {
-            var restaurants = _restaurantService.GetAll(address, page, pageSize);
+            var restaurants = _restaurantService.GetAll(query);
             var restaurantDTOs = restaurants.Select(r => r.ToDTO()).ToList();
             return Ok(restaurantDTOs);
 

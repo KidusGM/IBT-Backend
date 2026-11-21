@@ -1,4 +1,5 @@
-﻿using AddisEatsNew.Api.Models;
+﻿using AddisEatsNew.Api.DTOs;
+using AddisEatsNew.Api.Models;
 
 namespace AddisEatsNew.Api.Services.RestaurantServices
 {
@@ -7,7 +8,7 @@ namespace AddisEatsNew.Api.Services.RestaurantServices
         Restaurant? GetById(int id);
         Restaurant? GetByName(string name); 
 
-        List<Restaurant> GetAll(string? address, int page, int pageSize);
+        List<Restaurant> GetAll(RestaurantQuery query);
         List<Restaurant> GetAllActive();
 
 
