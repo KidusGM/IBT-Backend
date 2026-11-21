@@ -18,11 +18,30 @@ namespace AddisEatsNew.Api.Controllers
             _restaurantService = restaurantService;
         }
 
+        // [HttpGet("{id:int:range(1,10)}")]
+        // [HttpGet("{id:string:alpha(1)}")]
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int:min(1)}")]
         public IActionResult GetRestaurantById(int id)
         {
             var restaurant = _restaurantService.GetById(id);
+            if (restaurant == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(restaurant);
+
+
+
+        }
+
+
+
+        [HttpGet("byName/{name}")]
+        public IActionResult GetRestaurantByName(string name)
+        {
+            var restaurant = _restaurantService.GetByName(name);
             if (restaurant == null)
             {
                 return NotFound();
@@ -39,6 +58,17 @@ namespace AddisEatsNew.Api.Controllers
         public IActionResult GetAllestaurants([FromQuery] string? address, [FromQuery] int page=1, [FromQuery] int pageSize=3)
         {
             var restaurants = _restaurantService.GetAll(address, page, pageSize);
+            var restaurantDTOs = restaurants.Select(r => r.ToDTO()).ToList();
+            return Ok(restaurantDTOs);
+
+
+
+        }
+
+        [HttpGet("active")]
+        public IActionResult GetAllActiveestaurants()
+        {
+            var restaurants = _restaurantService.GetAllActive();
             var restaurantDTOs = restaurants.Select(r => r.ToDTO()).ToList();
             return Ok(restaurantDTOs);
 
