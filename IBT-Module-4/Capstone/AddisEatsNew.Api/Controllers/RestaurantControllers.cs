@@ -54,12 +54,23 @@ namespace AddisEatsNew.Api.Controllers
         }
 
 
+        //[HttpGet()]
+        //public IActionResult GetAllestaurants([FromQuery] RestaurantQuery query)
+        //{
+        //    var restaurants = _restaurantService.GetAll(query);
+        //    var restaurantDTOs = restaurants.Select(r => r.ToDTO()).ToList();
+        //    return Ok(restaurantDTOs);
+
+
+
+        //}
+
         [HttpGet()]
         public IActionResult GetAllestaurants([FromQuery] RestaurantQuery query)
         {
             var restaurants = _restaurantService.GetAll(query);
-            var restaurantDTOs = restaurants.Select(r => r.ToDTO()).ToList();
-            return Ok(restaurantDTOs);
+            
+            return Ok(restaurants);
 
 
 

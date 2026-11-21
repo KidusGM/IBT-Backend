@@ -1,5 +1,6 @@
 
 using AddisEatsNew.Api.Services.MenuItemServices;
+using AddisEatsNew.Api.Services.OrderServices;
 using AddisEatsNew.Api.Services.RestaurantServices;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IMenuItemServices, MenuItemServices>();
 builder.Services.AddScoped <IRestaurantService, RestaurantService>();
+builder.Services.AddScoped<IOrderServices, OrderServices>();
 
 
 
