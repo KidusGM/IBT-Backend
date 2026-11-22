@@ -1,0 +1,6 @@
+@AddisEats_Day_5_RestaurantService_HostAddress = http://localhost:5062
+
+GET {{AddisEats_Day_5_RestaurantService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
