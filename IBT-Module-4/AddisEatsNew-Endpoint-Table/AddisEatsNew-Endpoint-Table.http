@@ -1,0 +1,6 @@
+@AddisEatsNew_Endpoint_Table_HostAddress = http://localhost:5268
+
+GET {{AddisEatsNew_Endpoint_Table_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
