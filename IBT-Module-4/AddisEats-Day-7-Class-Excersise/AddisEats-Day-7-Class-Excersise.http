@@ -1,0 +1,6 @@
+@AddisEats_Day_7_Class_Excersise_HostAddress = http://localhost:5160
+
+GET {{AddisEats_Day_7_Class_Excersise_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
