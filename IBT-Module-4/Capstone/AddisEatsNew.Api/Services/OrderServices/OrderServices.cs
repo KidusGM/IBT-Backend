@@ -1,5 +1,7 @@
-﻿using AddisEatsNew.Api.DTOs;
+﻿using AddisEatsNew.Api.Common;
+using AddisEatsNew.Api.DTOs;
 using AddisEatsNew.Api.Models;
+using AddisEatsNew.Api.Services.RestaurantServices;
 namespace AddisEatsNew.Api.Services.OrderServices;
 
 
@@ -7,6 +9,12 @@ namespace AddisEatsNew.Api.Services.OrderServices;
 {
         private static readonly List<Order> _orders = new List<Order>();
     private static int _nextId = 1;
+
+    private readonly IRestaurantService _restaurantService;
+    public OrderServices(IRestaurantService restaurantService)
+    {
+        _restaurantService = restaurantService;
+    }
 
 
 
@@ -16,9 +24,19 @@ namespace AddisEatsNew.Api.Services.OrderServices;
         return order;
         }
 
-        public Order CreateOrder(CreateOrderDTO createDTO)
+        public Result<Order> CreateOrder(CreateOrderDTO createDTO)
         {
-           Order o = new Order
+        var restaurant = _restaurantService.GetBuId(createDTO.RestaurantId);
+        if (restaurant is null)
+        {
+            return Result<Order>.Fail("RESTAURANT_NOT_FOUND", "The selected restaurant is not avaliable", 404);
+        }
+
+        if (!restaurant.IsActive)
+        {
+            return Result<Order>.Fail("RESTAURANT_NOT_ACRIVE", "The selected another", 409);
+        }
+        Order o = new Order
            {
                Id = _nextId++,
                RestaurantId = createDTO.RestaurantId,
@@ -31,6 +49,6 @@ namespace AddisEatsNew.Api.Services.OrderServices;
 
            };
     _orders.Add(o);
-        return o;
+        return Result<Order>.Ok(o);
         }
     }

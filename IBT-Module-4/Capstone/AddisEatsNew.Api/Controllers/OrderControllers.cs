@@ -1,5 +1,6 @@
 ﻿using AddisEatsNew.Api.DTOs;
 using AddisEatsNew.Api.Models;
+using AddisEatsNew.Api.Common;
 using Microsoft.AspNetCore.Mvc;
 using AddisEatsNew.Api.Services.OrderServices;
 namespace AddisEatsNew.Api.Controllers
@@ -31,8 +32,25 @@ namespace AddisEatsNew.Api.Controllers
         [HttpPost()]
         public IActionResult CreateOrder([FromBody] CreateOrderDTO createDTO)
         {
-            var order = _orderServices.CreateOrder(createDTO);
-            return CreatedAtAction(nameof(GetById), new { id = order.Id }, order);
+
+            var result = _orderServices.CreateOrder(createDTO);
+            if (!result.IsSuccess)
+            {
+                return Problem(
+                    title: result.Error?.Message,
+                    statusCode: result.Error?.Status,
+                    detail: result.Error?.Code
+                    );
+            }
+            var order = result.Value;
+
+            return CreatedAtAction(
+                nameof(GetById),
+                new { id = order.Id },
+                order
+                );
+            //var order = _orderServices.CreateOrder(createDTO);
+           // return CreatedAtAction(nameof(GetById), new { id = order.Id }, order);
            // return Ok(order);
         }
     }
