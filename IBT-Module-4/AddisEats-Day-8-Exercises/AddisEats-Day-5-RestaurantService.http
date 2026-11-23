@@ -1,0 +1,126 @@
+@host = http://localhost:5062
+
+### ORD-001 — restaurant not found (real service error)
+POST {{host}}/api/v1/orders
+Content-Type: application/json
+
+{
+  "customerName": "Test User",
+  "mobileNumber": "0912345678",
+  "restaurantId": 9999,
+  "orderType": "Delivery",
+  "deliveryAddress": "Bole, Addis Ababa",
+  "items": [{ "menuItemId": 1, "quantity": 1 }]
+}
+
+### ORD-002 — menu item does not belong to restaurant 1
+POST {{host}}/api/v1/orders
+Content-Type: application/json
+
+{
+  "customerName": "Test User",
+  "mobileNumber": "0912345678",
+  "restaurantId": 1,
+  "orderType": "Delivery",
+  "deliveryAddress": "Bole, Addis Ababa",
+  "items": [{ "menuItemId": 3, "quantity": 1 }]
+}
+
+### ORD-003 — invalid quantity
+POST {{host}}/api/v1/orders
+Content-Type: application/json
+
+{
+  "customerName": "Test User",
+  "mobileNumber": "0912345678",
+  "restaurantId": 1,
+  "orderType": "Delivery",
+  "deliveryAddress": "Bole, Addis Ababa",
+  "items": [{ "menuItemId": 1, "quantity": 0 }]
+}
+
+### ORD-004 — empty order
+POST {{host}}/api/v1/orders
+Content-Type: application/json
+
+{
+  "customerName": "Test User",
+  "mobileNumber": "0912345678",
+  "restaurantId": 1,
+  "orderType": "Delivery",
+  "deliveryAddress": "Bole, Addis Ababa",
+  "items": []
+}
+
+### ORD-005 — invalid Ethiopian mobile
+POST {{host}}/api/v1/orders
+Content-Type: application/json
+
+{
+  "customerName": "Test User",
+  "mobileNumber": "0612345678",
+  "restaurantId": 1,
+  "orderType": "Delivery",
+  "deliveryAddress": "Bole, Addis Ababa",
+  "items": [{ "menuItemId": 1, "quantity": 1 }]
+}
+
+### ORD-006 — delivery address required
+POST {{host}}/api/v1/orders
+Content-Type: application/json
+
+{
+  "customerName": "Test User",
+  "mobileNumber": "0912345678",
+  "restaurantId": 1,
+  "orderType": "Delivery",
+  "deliveryAddress": "",
+  "items": [{ "menuItemId": 1, "quantity": 1 }]
+}
+
+### ORD-007 — invalid order type
+POST {{host}}/api/v1/orders
+Content-Type: application/json
+
+{
+  "customerName": "Test User",
+  "mobileNumber": "0912345678",
+  "restaurantId": 1,
+  "orderType": "Ship",
+  "deliveryAddress": "Bole, Addis Ababa",
+  "items": [{ "menuItemId": 1, "quantity": 1 }]
+}
+
+### ORD-008 — invalid ETB amount (amount validation endpoint)
+POST {{host}}/api/v1/validation/amount
+Content-Type: application/json
+
+{
+  "amountEtb": 480.505
+}
+
+### Exercise 6 — malicious client total is ignored; server calculates total
+POST {{host}}/api/v1/orders
+Content-Type: application/json
+
+{
+  "customerName": "Test User",
+  "mobileNumber": "0912345678",
+  "restaurantId": 1,
+  "orderType": "Delivery",
+  "deliveryAddress": "Bole, Addis Ababa",
+  "items": [{ "menuItemId": 1, "quantity": 1 }],
+  "totalEtb": 1
+}
+
+### Exercise 7 — deliberate exception; expect 500, traceId, no stack trace
+GET {{host}}/api/v1/test/throw
+Accept: application/json
+
+### Valid ETB amount test — expect 200
+POST {{host}}/api/v1/validation/amount
+Content-Type: application/json
+
+{
+  "amountEtb": 480.50
+}
