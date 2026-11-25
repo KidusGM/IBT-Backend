@@ -26,7 +26,7 @@ namespace AddisEatsNew.Api.Services.OrderServices;
 
         public Result<Order> CreateOrder(CreateOrderDTO createDTO)
         {
-        var restaurant = _restaurantService.GetBuId(createDTO.RestaurantId);
+        var restaurant = _restaurantService.GetById(createDTO.RestaurantId);
         if (restaurant is null)
         {
             return Result<Order>.Fail("RESTAURANT_NOT_FOUND", "The selected restaurant is not avaliable", 404);

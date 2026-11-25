@@ -7,7 +7,7 @@ namespace AddisEatsNew.Api.Validation
     public class EthiopianMobileAttribute  : ValidationAttribute
     {
         private static readonly Regex Pattern = 
-            new(@"^(\+251 | 0)(9 | 7)\d{8}$", RegexOptions.Compiled);
+            new(@"^09\d{8}$|^07\d{8}$", RegexOptions.Compiled);
 
         public EthiopianMobileAttribute()
         {
